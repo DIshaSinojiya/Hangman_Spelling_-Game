@@ -1,0 +1,270 @@
+
+        :root {
+            --bg-color-start: #1a202c;
+            --bg-color-mid: #2d3748;
+            --bg-color-end: #1c2b3e;
+            --primary-color: rgba(45, 55, 72, 0.85);
+            --secondary-color: #4a5568;
+            --text-color: #edf2f7;
+            --accent-color: #4299e1;
+            --correct-color: #48bb78;
+            --wrong-color: #f56565;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overscroll-behavior: none;
+            background-color: #0a0a1a; /* New dark blue background */
+            cursor: none; /* Hide default cursor */
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .font-marker {
+            font-family: 'Permanent Marker', cursive;
+        }
+
+        #game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        .game-box {
+            background-color: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border-radius: 1.5rem;
+            box-shadow: none;
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+            border: none;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1.font-marker {
+            animation: glow 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #4299e1, 0 0 15px #4299e1;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #4299e1, 0 0 30px #4299e1;
+            }
+        }
+
+
+        /* Hangman SVG Animation */
+        .gallows-part {
+            stroke: var(--secondary-color);
+            stroke-width: 4;
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        .hangman-part {
+            stroke: var(--text-color);
+            stroke-width: 4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            transition: stroke-dashoffset 1s ease-in-out;
+        }
+
+        .hangman-part.visible {
+            stroke-dashoffset: 0;
+        }
+
+        .word-display {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .letter-box {
+            width: 3.5rem;
+            height: 4.5rem;
+            border-bottom: 4px solid var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .letter-box.revealed .letter-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .letter-inner {
+             position: relative;
+             width: 100%;
+             height: 100%;
+             text-align: center;
+             transition: transform 0.6s;
+             transform-style: preserve-3d;
+        }
+
+        .letter-front, .letter-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .letter-back {
+            transform: rotateY(180deg);
+            color: var(--accent-color);
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+            gap: 0.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .key {
+            padding: 0.75rem 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            background-color: var(--secondary-color);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-color);
+            border-bottom: 3px solid rgba(0,0,0,0.3);
+        }
+
+        .key:hover:not(:disabled) {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .key:active:not(:disabled) {
+            transform: translateY(1px);
+            border-bottom-width: 2px;
+        }
+
+        .key:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .key.correct {
+            background-color: var(--correct-color);
+            color: white;
+        }
+
+        .key.wrong {
+            background-color: var(--wrong-color);
+            color: white;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--primary-color);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            border: 2px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 16px;
+            background-color: #f00;
+            top: -20px;
+            animation: fall 5s linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .cursor {
+            width: 25px;
+            height: 25px;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transition: transform 0.1s ease-out;
+            animation: color-cycle 4s linear infinite;
+        }
+
+        @keyframes color-cycle {
+            0% { border-color: hsl(0, 100%, 50%); }
+            25% { border-color: hsl(90, 100%, 50%); }
+            50% { border-color: hsl(180, 100%, 50%); }
+            75% { border-color: hsl(270, 100%, 50%); }
+            100% { border-color: hsl(360, 100%, 50%); }
+        }

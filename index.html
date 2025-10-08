@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Hangman Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+   <div id="game-container">
+        <div class="game-box">
+            <h1 class="font-marker text-5xl text-center mb-4 text-blue-400 tracking-wider">Hangman</h1>
+            
+            <div class="flex flex-col lg:flex-row items-center justify-around gap-8">
+                <!-- Hangman Graphic -->
+                <div class="w-full max-w-[250px]">
+                    <svg viewBox="0 0 200 250" class="w-full h-auto">
+                        <!-- Gallows -->
+                        <line x1="10" y1="230" x2="190" y2="230" class="gallows-part"/> <!-- Base -->
+                        <line x1="50" y1="230" x2="50" y2="20" class="gallows-part"/>  <!-- Pole -->
+                        <line x1="50" y1="20" x2="150" y2="20" class="gallows-part"/>  <!-- Beam -->
+                        <line x1="150" y1="20" x2="150" y2="50" class="gallows-part"/> <!-- Rope -->
+
+                        <!-- Man -->
+                        <circle cx="150" cy="70" r="20" class="hangman-part" id="head" />
+                        <line x1="150" y1="90" x2="150" y2="150" class="hangman-part" id="body" />
+                        <line x1="150" y1="110" x2="120" y2="140" class="hangman-part" id="left-arm" />
+                        <line x1="150" y1="110" x2="180" y2="140" class="hangman-part" id="right-arm" />
+                        <line x1="150" y1="150" x2="120" y2="180" class="hangman-part" id="left-leg" />
+                        <line x1="150" y1="150" x2="180" y2="180" class="hangman-part" id="right-leg" />
+                    </svg>
+                </div>
+
+                <!-- Game Info -->
+                <div class="w-full text-center lg:text-left">
+                    <div id="word-display" class="word-display"></div>
+
+                    <div class="text-xl mb-4 text-gray-400">
+                        Hint: <span id="hint-text" class="font-semibold text-white"></span>
+                    </div>
+
+                    <div class="flex justify-center lg:justify-start gap-8 text-lg mb-6">
+                        <div>
+                           Wrong Guesses: <span id="wrong-guesses-count" class="font-bold text-red-400">0 / 6</span>
+                        </div>
+                        <div>
+                           Score: <span id="score-display" class="font-bold text-green-400">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="keyboard" class="keyboard mt-8"></div>
+        </div>
+    </div>
+    
+    <!-- Game Over Modal -->
+    <div id="modal" class="modal-overlay">
+        <div id="animation-container"></div>
+        <div class="modal-content">
+            <h2 id="modal-title" class="text-4xl font-bold mb-4 font-marker">Game Over!</h2>
+            <p id="modal-text" class="text-lg mb-6">The correct word was: <strong id="correct-word" class="text-blue-400"></strong></p>
+            <button id="play-again-btn" class="w-full py-3 px-6 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg text-xl transition-transform transform hover:scale-105">
+                Play Again
+            </button>
+        </div>
+    </div>
+  <script src="script.js"></script>
+
+</body>
+</html>
+
+
